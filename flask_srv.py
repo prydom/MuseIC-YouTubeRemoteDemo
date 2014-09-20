@@ -50,6 +50,17 @@ def push_nextVideo():
 
     return "OK"
 
+@app.route("/pause_play")
+def push_pausePlay():
+    def notify():
+        msg = "PAUSE/PLAY"
+        for sub in subs:
+            sub.put([msg, 'pause_play'])
+
+    gevent.spawn(notify)
+
+    return "OK"
+
 @app.route("/subscribe")
 def subscribe():
     def gen():
