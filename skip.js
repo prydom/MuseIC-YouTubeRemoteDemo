@@ -38,7 +38,6 @@ function onPlayerReady(event) {
 
 var skip_btn = document.getElementsByName('skip-btn')[0];
 skip_btn.addEventListener('click', nextVideo)
-var done = false;
 
 
 function nextVideo() {
