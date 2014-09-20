@@ -38,12 +38,28 @@ function onPlayerReady(event) {
 
 }
 
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '360',
+    width: '640',
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onStateChange
+    }
+  });
+}
+
 function onStateChange(event) {
   if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED ||
       event.data == YT.PlayerState.CUED) {
     playing = false;
   }
-  else if (event.data == YT.PlayerState.PLAYED || event.data == YT.PlayerState.BUFFERING) {
+  else if (event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.BUFFERING) {
     playing = true;
   }
 }
@@ -59,6 +75,7 @@ function pause_play() {
     playing = false;
   } else {
     player.playVideo();
+    logEntry("Playing Video");
     playing = true;
   }
 }
@@ -72,7 +89,7 @@ function nextVideo() {
 
 var evtSrc = new EventSource("/subscribe");
 
-eveSrc.onmessage = function (e) {
+evtSrc.onmessage = function (e) {
   console.log(e.data);
   logEntry("Revieved an arbitrary PUSH notification: " + e.data);
 };
