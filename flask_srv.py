@@ -8,9 +8,9 @@ import time
 
 class ServerSentEvent(object):
 
-    def __init__(self, data):
+    def __init__(self, data, event):
         self.data = data
-        self.event = None
+        self.event = event or None
         self.id = None
         self.desc_map = {
             self.data : "data",
@@ -46,7 +46,7 @@ def push_nextVideo():
     def notify():
         msg = "NEXT!"
         for sub in subs:
-            sub.put(msg)
+            sub.put([msg, 'next_video'])
 
     gevent.spawn(notify)
 
@@ -59,8 +59,8 @@ def subscribe():
         subs.append(q)
         try:
             while True:
-                result = q.get()
-                ev = ServerSentEvent(str(result))
+                result, event = q.get()
+                ev = ServerSentEvent(str(result), str(event))
                 yield ev.encode()
         except GeneratorExit: # Or maybe use flask signals
             subs.remove(q)

@@ -50,10 +50,13 @@ function nextVideo() {
 
 var evtSrc = new EventSource("/subscribe");
 
-evtSrc.onmessage = function(e) {
-    console.log(e.data);
-    logEntry("Recieved a PUSH notification: "+e.data);
-    if (e.data == "NEXT!") {
-      nextVideo();
-    }
+eveSrc.onmessage = function (e) {
+  console.log(e.data);
+  logEntry("Revieved an arbitrary PUSH notification: " + e.data);
 };
+
+evtSrc.addEventListener('next_video', function(e) {
+    console.log(e.data);
+    logEntry("Recieved a PUSH event to advance video.");
+    nextVideo();
+});
