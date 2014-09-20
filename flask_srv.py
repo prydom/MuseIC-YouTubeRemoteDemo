@@ -37,12 +37,10 @@ def root():
 import os
 @app.route('/<path:path>')
 def static_proxy(path):
-    # send_static_file will guess the correct MIME type
     return app.send_static_file(path)
 
 @app.route("/next_video")
 def push_nextVideo():
-    #Dummy data - pick up from request for real data
     def notify():
         msg = "NEXT!"
         for sub in subs:
@@ -62,7 +60,7 @@ def subscribe():
                 result, event = q.get()
                 ev = ServerSentEvent(str(result), str(event))
                 yield ev.encode()
-        except GeneratorExit: # Or maybe use flask signals
+        except GeneratorExit:
             subs.remove(q)
 
     return Response(gen(), mimetype="text/event-stream")
