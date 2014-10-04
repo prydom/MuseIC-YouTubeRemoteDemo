@@ -1,6 +1,6 @@
-youtube-skip
+MuseIC - YouTube Remote Demo
 ============
 
-Advance a Youtube playlist with a GET request. 
+Control an embedded YouTube player with HTTP GET requests.
 
-Created as a component to a hack for Hack the North 2014
+Created as a component to a "[hack](https://github.com/prydom/MuseIC-EventServer)" for [Hack the North](http://hackthenorth.com/) 2014
